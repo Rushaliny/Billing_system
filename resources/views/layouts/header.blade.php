@@ -23,7 +23,7 @@
                         </div>
                     </form>
                     <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-                        <li class="nav-item dropdown hidden-caret">
+                        {{-- <li class="nav-item dropdown hidden-caret">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="la la-envelope"></i>
@@ -34,8 +34,8 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Something else here</a>
                             </div>
-                        </li>
-                        <li class="nav-item dropdown hidden-caret">
+                        </li> --}}
+                        {{-- <li class="nav-item dropdown hidden-caret">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="la la-bell"></i>
@@ -93,17 +93,17 @@
                                             notifications</strong> <i class="la la-angle-right"></i> </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
                         <li class="nav-item dropdown">
                             <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"
                                 aria-expanded="false"> <img src="assets/img/profile.jpg" alt="user-img"
-                                    width="36" class="img-circle"><span>Hizrian</span></span> </a>
+                                    width="36" class="img-circle"><span>Admin</span></span> </a>
                             <ul class="dropdown-menu dropdown-user">
                                 <li>
                                     <div class="user-box">
                                         <div class="u-img"><img src="assets/img/profile.jpg" alt="user"></div>
                                         <div class="u-text">
-                                            <h4>Hizrian</h4>
+                                            <h4>Admin</h4>
                                             <p class="text-muted">hello@themekita.com</p><a href="profile.html"
                                                 class="btn btn-rounded btn-danger btn-sm">View Profile</a>
                                         </div>
