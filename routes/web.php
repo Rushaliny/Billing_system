@@ -15,22 +15,29 @@ Route::get('/chargers', function () {
     return view('chargers');
 })->name('chargers.index');
 
+Route::get('/paybill', function () {
+    return view('paybill');
+})->name('paybill.index');
+
+Route::post('/paybill', function () {
+    // Handle the form submission
+})->name('paybill.store');
+
+Route::get('/reports', function () {
+    return view('reports');
+})->name('reports.index');
 
 
 
-// Route::get('/tables', function () {
-//     return view('tables');
-// });
-// Route::get('/notifications', function () {
-//     return view('notifications');
-// });
-// Route::get('/icons', function () {
-//     return view('icons');
-// });
-// Route::get('/typography', function () {
-//     return view('typography');
-// });
-// Route::get('/forms', function () {
-//     return view('forms');
-// });
+// Show the report page (default)
+Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+
+// Handle filter form submission
+Route::get('/reports/filter', [App\Http\Controllers\ReportController::class, 'filter'])->name('reports.filter');
+
+// Handle download request (filtered CSV or PDF)
+Route::get('/reports/download', [App\Http\Controllers\ReportController::class, 'download'])->name('reports.download');
+
+
+
 

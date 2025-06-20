@@ -50,15 +50,15 @@
 								{{-- <span class="badge badge-count">14</span> --}}
 							</a>
 						</li>
-						<li class="nav-item {{ request()->routeIs('forms') ? 'active' : '' }}">
-							<a href="forms.html">
+						<li class="nav-item {{ request()->routeIs('paybill.index') ? 'active' : '' }}">
+							<a href="{{ route('paybill.index') }}">
 								<i class="la la-paypal"></i>
 								<p>Pay Bills</p>
 								{{-- <span class="badge badge-count">50</span> --}}
 							</a>
 						</li>
-						<li class="nav-item {{ request()->routeIs('tables') ? 'active' : '' }}">
-							<a href="tables.html">
+						<li class="nav-item {{ request()->routeIs('reports.index') ? 'active' : '' }}">
+							<a href="{{ route('reports.index') }}">
 								<i class="la la-hourglass-1"></i>
 								<p>Reports</p>
 								{{-- <span class="badge badge-count">6</span> --}}
