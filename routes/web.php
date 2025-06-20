@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PaybillController;
+use App\Http\Controllers\ChargerController;
+use App\Models\Charger;
 
 Route::get('/', function () {
     return view('index');
@@ -14,17 +16,16 @@ Route::get('/dashboard', function () {
 })->name('dashboard.index');
 
 
-Route::get('/chargers', function () {
-    return view('chargers');
-})->name('chargers.index');
 
+// Paybill routes
+Route::get('/paybill/create', [PaybillController::class, 'create'])->name('paybill.create');
+Route::post('/paybill/store', [PaybillController::class, 'store'])->name('paybill.store');
+// Route::get('/paybill', [PaybillController::class, 'paybill'])->name('paybill.index');
 Route::get('/paybill', function () {
     return view('paybill');
 })->name('paybill.index');
 
-Route::post('/paybill', function () {
-    // Handle the form submission
-})->name('paybill.store');
+
 
 // Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
 
@@ -40,4 +41,15 @@ Route::get('/reports/download', [App\Http\Controllers\ReportController::class, '
 // Dashboard route
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
+// Charger routes
+// Route::get('/dashboard', [ChargerController::class, 'index'])->name('dashboard');
 
+Route::get('/chargers', [ChargerController::class, 'index']);
+
+Route::get('/chargers', function () {
+    return view('chargers', ['chargers' => Charger::all()]);
+})->name('chargers.index');
+
+Route::post('/chargers', [ChargerController::class, 'store']);
+Route::put('/chargers/{id}', [ChargerController::class, 'update']);
+Route::delete('/chargers/{id}', [ChargerController::class, 'destroy']);

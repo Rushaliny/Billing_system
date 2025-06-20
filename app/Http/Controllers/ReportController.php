@@ -20,14 +20,24 @@ class ReportController extends Controller
 {
     $query = Paybill::query();
 
-    if ($request->filled('from_date') && $request->filled('to_date')) {
-        $query->whereBetween('bill_month', [$request->from_date, $request->to_date]);
-    } elseif ($request->filled('month') && $request->filled('year')) {
+        // Filter by created_at date range
+     if ($request->filled('from_date') && $request->filled('to_date')) {
+        $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
+    }
+     // Filter by year (created_at)
+    if ($request->filled('year')) {
+        $query->whereYear('created_at', $request->year);
+    }
+
+    elseif ($request->filled('month') && $request->filled('year')) {
         $query->whereMonth('bill_month', $request->month)
               ->whereYear('bill_month', $request->year);
-    } elseif ($request->filled('year')) {
-        $query->whereYear('bill_month', $request->year);
+
+
     }
+    //  elseif ($request->filled('year')) {
+    //     $query->whereYear('bill_month', $request->year);
+    // }
 
     $paybills = $query->get();
 
@@ -38,14 +48,23 @@ public function download(Request $request)
 {
     $query = Paybill::query();
 
+     // Filter by created_at date range
     if ($request->filled('from_date') && $request->filled('to_date')) {
-        $query->whereBetween('bill_month', [$request->from_date, $request->to_date]);
-    } elseif ($request->filled('month') && $request->filled('year')) {
+        $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
+    }
+    // Filter by year (created_at)
+    if ($request->filled('year')) {
+        $query->whereYear('created_at', $request->year);
+    }
+
+    elseif ($request->filled('month') && $request->filled('year')) {
         $query->whereMonth('bill_month', $request->month)
               ->whereYear('bill_month', $request->year);
-    } elseif ($request->filled('year')) {
-        $query->whereYear('bill_month', $request->year);
     }
+
+    // elseif ($request->filled('year')) {
+    //     $query->whereYear('bill_month', $request->year);
+    // }
 
     $paybills = $query->get();
 

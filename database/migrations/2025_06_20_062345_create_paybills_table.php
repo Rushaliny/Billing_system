@@ -14,11 +14,19 @@ return new class extends Migration
     Schema::create('paybills', function (Blueprint $table) {
         $table->id();
         $table->string('customer_name');
+        $table->string('customer_address')->nullable();
+        $table->string('nic');
+        $table->string('mobile');
+        $table->string('service_type');
         $table->string('account_number');
-        $table->date('bill_month');
-        $table->integer('units_consumed');
-        $table->decimal('amount', 10, 2);
-        $table->date('paid_at');
+        $table->string('district');
+        $table->string('bill_month'); // Instead of $table->date('bill_month');
+        $table->decimal('base_amount', 10, 2);
+        $table->decimal('additional_charges', 10, 2);
+        $table->decimal('total_amount', 10, 2);
+        $table->string('payment_status');
+        $table->string('payment_method');
+        $table->text('cancel_reason')->nullable();
         $table->timestamps();
     });
 }

@@ -55,10 +55,8 @@
                     </div>
                     <div class="mt-3">
                         <button type="submit" class="btn btn-primary"><i class="la la-filter"></i> Filter</button>
-                        <button type="button" class="btn btn-secondary" id="downloadReportBtn">
-                            <i class="la la-download"></i> Download
-                        </button>
-
+                        <button type="button" class="btn btn-secondary" id="downloadReportBtn"><i
+                                class="la la-download"></i> Download</button>
                     </div>
                 </form>
             </div>
@@ -110,13 +108,14 @@
                             @php
                                 $total_income = 0;
                                 $adminpaidtotal = 0;
+                                $systemCharge = 50; // Your assumed system charge
                             @endphp
                             @foreach ($paybills as $bill)
                                 @php
-                                    $adminPaid = $bill->amount; // example: 5050
-                                    $actual = $adminPaid - 50; // assuming 50 is system charge
+                                    $adminPaid = $bill->total_amount;
+                                    $actual = $adminPaid - $systemCharge;
                                     $income = $adminPaid - $actual;
-                                    $adminpaidtotal += $adminPaid; // total admin paid
+                                    $adminpaidtotal += $adminPaid;
                                     $total_income += $income;
                                 @endphp
                                 <tr>
@@ -126,13 +125,12 @@
                                     <td>{{ number_format($adminPaid, 2) }}</td>
                                     <td>{{ number_format($actual, 2) }}</td>
                                     <td>{{ number_format($income, 2) }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($bill->paid_at)->format('Y-m-d') }}</td>
+                                    <td>{{ $bill->created_at ? $bill->created_at->format('Y-m-d') : '-' }}</td>
                                 </tr>
                             @endforeach
                             <tr class="bg-light font-weight-bold">
                                 <td colspan="4" class="text-end">Total Income (Rs)</td>
                                 <td>{{ number_format($adminpaidtotal, 2) }}</td>
-
                                 <td colspan="2">{{ number_format($total_income, 2) }}</td>
                             </tr>
                         </tbody>
@@ -141,23 +139,23 @@
             </div>
         @endif
 
-
     @endsection
-@push('scripts')
-<script>
-    document.getElementById('downloadReportBtn').addEventListener('click', function() {
-        const queryParams = new URLSearchParams(window.location.search).toString();
-        const downloadUrl = "{{ route('reports.download') }}" + (queryParams ? '?' + queryParams : '');
 
-        // Open download link in new tab to trigger download
-        window.open(downloadUrl, '_blank');
+    @push('scripts')
+        <script>
+            document.getElementById('downloadReportBtn').addEventListener('click', function() {
+                const queryParams = new URLSearchParams(window.location.search).toString();
+                const downloadUrl = "{{ route('reports.download') }}" + (queryParams ? '?' + queryParams : '');
 
-        // Refresh the page after 2 seconds (adjust if needed)
-        setTimeout(() => {
-            location.href = "{{ route('reports.index') }}";
-        }, 2000);
-    });
-</script>
-@endpush
+                // Open download link in new tab to trigger download
+                window.open(downloadUrl, '_blank');
+
+                // Refresh the page after 2 seconds to the base reports page
+                setTimeout(() => {
+                    window.location.href = "{{ route('reports.index') }}";
+                }, 2000);
+            });
+        </script>
+    @endpush
 
 </x-app-layout>
