@@ -1,4 +1,4 @@
-@extends('layouts.app')
+<x-app-layout>
 
 @section('title', 'Dashboard')
 
@@ -20,10 +20,8 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">Charge Type</th>
-                    <th scope="col">Amount</th>
                     <th scope="col">Applicable to</th>
-                    <th scope="col">Effective Date</th>
+                    <th scope="col">Amount</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -31,10 +29,8 @@
                 <!-- Dummy Data -->
                 @for ($i = 0; $i < 3; $i++)
                 <tr>
-                    <td>Service Charge</td>
-                    <td>50 RS</td>
                     <td>CEB / Water </td>
-                    <td>2025.05.25</td>
+                    <td>50 RS</td>
                     <td>
                         <button class="btn btn-sm btn-primary editBtn"
                                 data-toggle="modal"
@@ -72,14 +68,6 @@
                 <div class="modal-body">
                     <input type="hidden" id="charge_id">
                     <div class="form-group">
-                        <label for="type">Charge Type</label>
-                        <input type="text" class="form-control" id="type" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="amount">Amount (RS)</label>
-                        <input type="number" class="form-control" id="amount" required>
-                    </div>
-                    <div class="form-group">
                         <label for="applicable_to">Applicable To</label>
                         <select class="form-control" id="applicable_to">
                             <option value="" disabled selected>Select Applicable</option>
@@ -88,10 +76,13 @@
 
                         </select>
                     </div>
+
                     <div class="form-group">
-                        <label for="effective_date">Effective Date</label>
-                        <input type="date" class="form-control" id="effective_date" required>
+                        <label for="amount">Amount (RS)</label>
+                        <input type="number" class="form-control" id="amount" required>
                     </div>
+
+
                 </div>
 
                 <div class="modal-footer">
@@ -120,14 +111,6 @@
                 <div class="modal-body">
                     <input type="hidden" id="charge_id">
                     <div class="form-group">
-                        <label for="type">Charge Type</label>
-                        <input type="text" class="form-control" id="type" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="amount">Amount (RS)</label>
-                        <input type="number" class="form-control" id="amount" required>
-                    </div>
-                    <div class="form-group">
                         <label for="applicable_to">Applicable To</label>
                         <select class="form-control" id="applicable_to">
                             <option value="" disabled selected>Select Applicable</option>
@@ -137,9 +120,10 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="effective_date">Effective Date</label>
-                        <input type="date" class="form-control" id="effective_date" required>
+                        <label for="amount">Amount (RS)</label>
+                        <input type="number" class="form-control" id="amount" required>
                     </div>
+
                 </div>
 
                 <div class="modal-footer">
@@ -200,3 +184,5 @@
     });
 </script>
 @endpush
+
+</x-app-layout>

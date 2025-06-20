@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
 use App\Models\Paybill; // Use your actual model
@@ -15,64 +16,42 @@ class ReportController extends Controller
         return view('reports');
     }
 
-    // Filter and return view with paybill results
-    public function filter(Request $request)
-    {
-        $from = $request->input('from_date');
-        $to = $request->input('to_date');
-        $month = $request->input('month');
-        $year = $request->input('year');
+  public function filter(Request $request)
+{
+    $query = Paybill::query();
 
-        $paybills = Paybill::query()
-            ->when($from && $to, fn($q) => $q->whereBetween('paid_at', [$from, $to]))
-            ->when($month, fn($q) => $q->whereMonth('paid_at', $month))
-            ->when($year, fn($q) => $q->whereYear('paid_at', $year))
-            ->orderBy('paid_at', 'desc')
-            ->get();
-
-        return view('reports', compact('paybills'));
+    if ($request->filled('from_date') && $request->filled('to_date')) {
+        $query->whereBetween('bill_month', [$request->from_date, $request->to_date]);
+    } elseif ($request->filled('month') && $request->filled('year')) {
+        $query->whereMonth('bill_month', $request->month)
+              ->whereYear('bill_month', $request->year);
+    } elseif ($request->filled('year')) {
+        $query->whereYear('bill_month', $request->year);
     }
 
-    // Download filtered report as CSV
-    public function download(Request $request)
-    {
-        $from = $request->input('from_date');
-        $to = $request->input('to_date');
-        $month = $request->input('month');
-        $year = $request->input('year');
+    $paybills = $query->get();
 
-        $paybills = Paybill::query()
-            ->when($from && $to, fn($q) => $q->whereBetween('paid_at', [$from, $to]))
-            ->when($month, fn($q) => $q->whereMonth('paid_at', $month))
-            ->when($year, fn($q) => $q->whereYear('paid_at', $year))
-            ->orderBy('paid_at', 'desc')
-            ->get();
-
-        $filename = "filtered_paybills.csv";
-
-        $headers = [
-            "Content-type" => "text/csv",
-            "Content-Disposition" => "attachment; filename=$filename",
-        ];
-
-        $callback = function () use ($paybills) {
-            $handle = fopen('php://output', 'w');
-            fputcsv($handle, ['Customer', 'Account Number', 'Bill Month', 'Units', 'Amount', 'Paid On']);
-
-            foreach ($paybills as $bill) {
-                fputcsv($handle, [
-                    $bill->customer_name,
-                    $bill->account_number,
-                    Carbon::parse($bill->bill_month)->format('F Y'),
-                    $bill->units_consumed,
-                    $bill->amount,
-                    Carbon::parse($bill->paid_at)->format('Y-m-d'),
-                ]);
-            }
-
-            fclose($handle);
-        };
-
-        return Response::stream($callback, 200, $headers);
-    }
+    return view('reports', compact('paybills'));
 }
+
+public function download(Request $request)
+{
+    $query = Paybill::query();
+
+    if ($request->filled('from_date') && $request->filled('to_date')) {
+        $query->whereBetween('bill_month', [$request->from_date, $request->to_date]);
+    } elseif ($request->filled('month') && $request->filled('year')) {
+        $query->whereMonth('bill_month', $request->month)
+              ->whereYear('bill_month', $request->year);
+    } elseif ($request->filled('year')) {
+        $query->whereYear('bill_month', $request->year);
+    }
+
+    $paybills = $query->get();
+
+    $pdf = Pdf::loadView('reports.invoice', compact('paybills'));
+    return $pdf->download('paybill_report.pdf');
+}
+
+}
+// Note: Ensure you have the necessary model and view files created for this controller to work properly.

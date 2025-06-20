@@ -12,18 +12,19 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="{{ asset('assets/css/ready.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}">
+    @stack('styles')
 </head>
 
 <body>
     <div class="wrapper">
-        @include('layouts.header')
-        @include('layouts.sidebar')
+      <x-header/>
+        <x-sidebar/>
 
         <div class="main-panel">
             <div class="content">
                 @yield('content')
             </div>
-            @include('layouts.footer')
+           <x-footer/>
         </div>
     </div>
 
@@ -43,7 +44,9 @@
     <script src="{{ asset('assets/js/plugin/chart-circle/circles.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/ready.min.js') }}"></script>
-    <script src="{{ asset('assets/js/demo.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/demo.js') }}"></script> --}}
+
+    @stack('scripts')
 
 </body>
 
