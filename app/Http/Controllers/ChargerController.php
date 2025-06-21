@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class ChargerController extends Controller
 {
+
+    public function getCharge($type)
+    {
+        $charge = Charger::where('applicable_to', $type)->value('amount');
+        return response()->json(['charge' => $charge ?? 0]);
+    }
+
     // Return all chargers (for your table)
     public function index()
     {
@@ -55,4 +62,9 @@ class ChargerController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+
+
+
+
 }

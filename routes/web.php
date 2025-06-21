@@ -53,3 +53,4 @@ Route::get('/chargers', function () {
 Route::post('/chargers', [ChargerController::class, 'store']);
 Route::put('/chargers/{id}', [ChargerController::class, 'update']);
 Route::delete('/chargers/{id}', [ChargerController::class, 'destroy']);
+Route::get('/get-charge/{type}', [App\Http\Controllers\ChargerController::class, 'getCharge']);

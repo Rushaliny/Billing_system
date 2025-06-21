@@ -11,6 +11,7 @@ class Charger extends Model
         use HasFactory;
 
     //
-    protected $fillable = ['applicable_to', 'amount'];
+    protected $fillable = ['applicable_to', 'amount','service_type', 'additional_charge'];
+     
 
 }

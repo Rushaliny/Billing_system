@@ -2041,6 +2041,8 @@ body {
   position: relative;
   top: 0;
   height: 100vh;
+   /* height: 100vh; */
+
 }
 
 .main-header {
@@ -2252,6 +2254,7 @@ body {
   width: calc(100% - 260px);
   min-height: 100%;
   float: right;
+    flex: 1;
   background: #f2f3f8;
 }
 .main-panel .content {
@@ -2264,7 +2267,8 @@ body {
   border-top: 1px solid #eee;
   padding: 15px;
   background: #ffffff;
-  
+
+
 }
 .footer .container-fluid {
   display: flex;
