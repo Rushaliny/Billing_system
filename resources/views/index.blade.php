@@ -63,7 +63,7 @@
                     </div>
                     <div>
                         <p class="card-category mb-1">Paid Payments</p>
-                        {{-- <h4 class="card-title">{{ $paidPayments ?? 0 }}</h4> --}}
+                        <h4 class="card-title">{{ $paidPayments ?? 0 }}</h4>
                     </div>
                 </div>
             </div>

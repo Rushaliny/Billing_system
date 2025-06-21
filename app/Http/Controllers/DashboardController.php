@@ -12,18 +12,18 @@ class DashboardController extends Controller
         // Total number of bills
         $totalPaybills = Paybill::count();
 
-        // Total income (if "amount" includes additional charges)
-        $totalIncome = Paybill::sum('amount');
+        // // Total income (if "amount" includes additional charges)
+        // $totalIncome = Paybill::sum('amount');
 
         // Count of pending and paid bills
-        $pendingPayments = Paybill::where('payment_status', 'Pending')->count();
+        // $pendingPayments = Paybill::where('payment_status', 'Pending')->count();
         $paidPayments = Paybill::where('payment_status', 'Paid')->count();
 
         // Pass data to view
-        return view('dashboard', compact(
+        return view('index', compact(
             'totalPaybills',
-            'totalIncome',
-            'pendingPayments',
+            // 'totalIncome',
+            // 'pendingPayments',
             'paidPayments'
         ));
     }
