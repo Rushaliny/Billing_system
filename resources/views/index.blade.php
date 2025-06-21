@@ -4,6 +4,18 @@
 
 @section('content')
 
+<style>
+    .footer {
+  position: fixed;
+  bottom: 0;
+  left: 260px; /* adjust this if your sidebar is a different width */
+  width: calc(100% - 260px); /* match the main panel width */
+  border-top: 1px solid #eee;
+  padding: 15px;
+  background: #ffffff;
+  z-index: 999;
+}
+</style>
 <div class="container-fluid">
     <h4 class="page-title mb-4">Dashboard</h4>
 

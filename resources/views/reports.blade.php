@@ -96,9 +96,11 @@
                         <thead>
                             <tr>
                                 <th>Customer</th>
+                                <th>Service Type</th>
                                 <th>Account Number</th>
                                 <th>Bill Month</th>
-                                  <th>Paid On</th>
+                                <th>Paid On</th>
+                                <th>Payment Status</th>
                                 <th>Admin Paid (Rs)</th>
                                 <th>Actual Amount (Rs)</th>
                                 <th>Income (Rs)</th>
@@ -110,32 +112,52 @@
                                 $total_income = 0;
                                 $adminpaidtotal = 0;
                                 $actualtotal = 0;
-                                $systemCharge = 50; // Your assumed system charge
                             @endphp
+
                             @foreach ($paybills as $bill)
                                 @php
-                                    $adminPaid = $bill->total_amount;
-                                    $actual = $adminPaid - $systemCharge;
-                                    // $income = $adminPaid - $actual;
+                                    if ($bill->payment_status === 'Paid') {
+                                        $adminPaid = $bill->total_amount;
+                                        $actual = $bill->base_amount;
+                                        $income = $adminPaid - $actual;
 
-                                    $adminpaidtotal += $adminPaid;
-                                    $total_income += $bill->additional_charges;
-                                    $actualtotal += $actual;
+                                        $adminpaidtotal += $adminPaid;
+                                        $actualtotal += $actual;
+                                        $total_income += $income;
+                                    }
                                 @endphp
                                 <tr>
                                     <td>{{ $bill->customer_name }}</td>
+                                    <td>{{ $bill->service_type }}</td>
                                     <td>{{ $bill->account_number }}</td>
                                     <td>{{ \Carbon\Carbon::parse($bill->bill_month)->format('F Y') }}</td>
                                     <td>{{ $bill->created_at ? $bill->created_at->format('Y-m-d') : '-' }}</td>
-                                    <td>{{ $bill->total_amount }}</td>
-                                    <td>{{ $bill->base_amount }}</td>
-                                    <td>{{ $bill->additional_charges }}</td>
+                                    <td>
+                                        @if ($bill->payment_status == 'Paid')
+                                            <span class="badge bg-success">Paid</span>
+                                        @elseif ($bill->payment_status == 'Pending')
+                                            <span class="badge bg-danger">Pending</span>
+                                        @elseif ($bill->payment_status == 'Cancelled')
+                                            <span class="badge bg-warning">Cancelled</span>
+                                        @else
+                                            <span class="badge bg-secondary">Unknown</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $bill->total_amount, 2 }}</td>
+                                    <td>{{ $bill->base_amount, 2 }}</td>
+                                    <td>
+                                        @if ($bill->payment_status === 'Paid')
+                                            {{ number_format($income, 2) }}
+                                        @else
+                                            0.00
+                                        @endif
+                                    </td>
 
 
                                 </tr>
                             @endforeach
                             <tr class="bg-light font-weight-bold">
-                                <td colspan="4" class="text-end">Total Income (Rs)</td>
+                                <td colspan="6" class="text-end">Total Income (Rs)</td>
                                 <td>{{ number_format($adminpaidtotal, 2) }}</td>
                                 <td>{{ number_format($actualtotal, 2) }}</td>
                                 <td>{{ number_format($total_income, 2) }}</td>

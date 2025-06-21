@@ -12,18 +12,24 @@ class DashboardController extends Controller
         // Total number of bills
         $totalPaybills = Paybill::count();
 
-        // // Total income (if "amount" includes additional charges)
-        // $totalIncome = Paybill::sum('amount');
+        // Only consider Paid bills
+        $paidBills = Paybill::where('payment_status', 'Paid');
 
-        // Count of pending and paid bills
-        // $pendingPayments = Paybill::where('payment_status', 'Pending')->count();
-        $paidPayments = Paybill::where('payment_status', 'Paid')->count();
+        // Sum total_amount and base_amount for only paid bills
+        $sumTotalAmount = $paidBills->sum('total_amount');
+        $sumBaseAmount = $paidBills->sum('base_amount');
 
-        // Pass data to view
+        // Total income is the difference (additional charges)
+        $totalIncome = $sumTotalAmount - $sumBaseAmount;
+
+        // Count pending and paid bills
+        $pendingPayments = Paybill::where('payment_status', 'Pending')->count();
+        $paidPayments = $paidBills->count();
+
         return view('index', compact(
             'totalPaybills',
-            // 'totalIncome',
-            // 'pendingPayments',
+            'totalIncome',
+            'pendingPayments',
             'paidPayments'
         ));
     }
