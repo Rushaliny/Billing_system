@@ -5,15 +5,18 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PaybillController;
 use App\Http\Controllers\ChargerController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\LoginController;
+
+
 use App\Models\Charger;
 
-Route::get('/', function () {
-    return view('index');
-});
+// Dashboard route
+// Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-Route::get('/dashboard', function () {
-    return view('index');
-})->name('dashboard.index');
+// Index route
+Route::get('/index', [DashboardController::class, 'index'])->name('dashboard.index');
 
 
 
@@ -38,8 +41,6 @@ Route::get('/reports/filter', [App\Http\Controllers\ReportController::class, 'fi
 // Handle download request (filtered CSV or PDF)
 Route::get('/reports/download', [App\Http\Controllers\ReportController::class, 'download'])->name('reports.download');
 
-// Dashboard route
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 // Charger routes
 // Route::get('/dashboard', [ChargerController::class, 'index'])->name('dashboard');
@@ -54,3 +55,24 @@ Route::post('/chargers', [ChargerController::class, 'store']);
 Route::put('/chargers/{id}', [ChargerController::class, 'update']);
 Route::delete('/chargers/{id}', [ChargerController::class, 'destroy']);
 Route::get('/get-charge/{type}', [App\Http\Controllers\ChargerController::class, 'getCharge']);
+
+// Route::get('/profile', function () {
+//     return view('profile');
+// })->name('profile.index');
+
+
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+//     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+// });
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+
