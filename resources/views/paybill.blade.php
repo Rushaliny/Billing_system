@@ -51,7 +51,9 @@
                         </select>
                     </div>
                     <label class="col-sm-2 col-form-label">Account No</label>
-                    <div class="col-sm-4"><input type="text" class="form-control" name="account_number" required></div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="account_number" readonly value="{{ auth()->user()->account_number ?? '' }}" required>
+                    </div>
                 </div>
 
                 <div class="form-group row">

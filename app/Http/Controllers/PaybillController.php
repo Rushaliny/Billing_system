@@ -32,4 +32,10 @@ class PaybillController extends Controller
 
     return redirect()->back()->with('success', 'Bill submitted successfully.');
 }
+public function show()
+{
+    $paybills = Paybill::latest()->get();
+    return view('show', compact('paybills'));
+}
+
 }

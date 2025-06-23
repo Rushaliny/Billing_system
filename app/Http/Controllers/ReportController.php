@@ -72,5 +72,52 @@ public function download(Request $request)
     return $pdf->download('paybill_report.pdf');
 }
 
+public function downloadCsv()
+{
+    $paybills = Paybill::all();
+    $filename = 'paybills_' . now()->format('Ymd_His') . '.csv';
+
+    $headers = [
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => "attachment; filename=$filename",
+    ];
+
+    $callback = function () use ($paybills) {
+        $file = fopen('php://output', 'w');
+        fputcsv($file, ['Customer Name', 'NIC', 'Mobile', 'Service Type', 'Account No', 'District', 'Bill Month', 'Base', 'Charges', 'Total', 'Status', 'Method', 'Reason', 'Date']);
+
+        foreach ($paybills as $bill) {
+            fputcsv($file, [
+                $bill->customer_name,
+                $bill->nic,
+                $bill->mobile,
+                $bill->service_type,
+                $bill->account_number,
+                $bill->district,
+                \Carbon\Carbon::parse($bill->bill_month)->format('F Y'),
+                $bill->base_amount,
+                $bill->additional_charges,
+                $bill->total_amount,
+                $bill->payment_status,
+                $bill->payment_method,
+                $bill->cancel_reason ?? '-',
+                $bill->created_at->format('Y-m-d')
+            ]);
+        }
+
+        fclose($file);
+    };
+
+    return Response::stream($callback, 200, $headers);
+}
+
+public function downloadPdf()
+{
+    $paybills = Paybill::all();
+    $pdf = Pdf::loadView('reports.pdf', compact('paybills'));
+    return $pdf->download('paybills_' . now()->format('Ymd_His') . '.pdf');
+}
+
+
 }
 // Note: Ensure you have the necessary model and view files created for this controller to work properly.

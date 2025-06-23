@@ -20,11 +20,11 @@ class ProfileController extends Controller
     $user = auth()->user();
 
     $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email,' . $user->id,
-        'account_number' => 'nullable|string',
-        'password' => 'nullable|string|min:6',
-    ]);
+    'name' => 'required|string|max:255',
+    'email' => 'required|email|unique:users,email,' . $user->id,
+    'account_number' => 'nullable|string',
+    'password' => 'nullable|string|min:6|confirmed',
+]);
 
     // Update fields
     $user->name = $validated['name'];

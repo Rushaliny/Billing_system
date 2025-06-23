@@ -48,6 +48,15 @@
 								{{-- <span class="badge badge-count">50</span> --}}
 							</a>
 						</li>
+
+                        <li class="nav-item {{ request()->routeIs('show.index') ? 'active' : '' }}">
+							<a href="{{ route('show') }}">
+                                <i class="la la-file-text"></i>
+								<p>Bills Details</p>
+								{{-- <span class="badge badge-count">6</span> --}}
+							</a>
+						</li>
+
 						<li class="nav-item {{ request()->routeIs('reports.index') ? 'active' : '' }}">
 							<a href="{{ route('reports.index') }}">
 								<i class="la la-hourglass-1"></i>
@@ -55,6 +64,7 @@
 								{{-- <span class="badge badge-count">6</span> --}}
 							</a>
 						</li>
+
 
 					</ul>
 				</div>

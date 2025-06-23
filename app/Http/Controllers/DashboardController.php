@@ -4,33 +4,63 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Paybill; // Make sure this model exists
+use Illuminate\Support\Facades\DB;
+
+use App\Models\User; // Assuming you have a User model
+use Carbon\Carbon; // For date manipulation
+
+
+
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Total number of bills
-        $totalPaybills = Paybill::count();
 
-        // Only consider Paid bills
-        $paidBills = Paybill::where('payment_status', 'Paid');
 
-        // Sum total_amount and base_amount for only paid bills
-        $sumTotalAmount = $paidBills->sum('total_amount');
-        $sumBaseAmount = $paidBills->sum('base_amount');
+    $totalIncome = Paybill::where('payment_status', 'Paid')
+    ->sum(DB::raw('total_amount - base_amount'));
+    $totalPaybills = Paybill::count();
+    $paidPayments = Paybill::where('payment_status', 'Paid')->sum('total_amount');
+    $pendingPayments = Paybill::where('payment_status', 'Pending')->sum('total_amount');
+    $cancelPayments = Paybill::where('payment_status', 'Cancelled')->sum('total_amount');
 
-        // Total income is the difference (additional charges)
-        $totalIncome = $sumTotalAmount - $sumBaseAmount;
+    // Monthly user stats
+    $userStats = User::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+        ->whereYear('created_at', date('Y'))
+        ->groupBy('month')
+        ->orderBy('month')
+        ->get();
 
-        // Count pending and paid bills
-        $pendingPayments = Paybill::where('payment_status', 'Pending')->count();
-        $paidPayments = $paidBills->count();
-
-        return view('index', compact(
-            'totalPaybills',
-            'totalIncome',
-            'pendingPayments',
-            'paidPayments'
-        ));
+    $months = [];
+    $totals = [];
+    foreach ($userStats as $stat) {
+        $months[] = Carbon::create()->month($stat->month)->format('F');
+        $totals[] = $stat->total;
     }
+
+    $paybills = Paybill::latest()->take(5)->get(); // fetch latest 5 records
+
+    $paid = Paybill::where('payment_status', 'Paid')->count();
+    $pending = Paybill::where('payment_status', 'Pending')->count();
+    $cancelled = Paybill::where('payment_status', 'Cancelled')->count();
+
+
+return view('index', compact(
+    'totalIncome',
+    'totalPaybills',
+    'paidPayments',
+    'pendingPayments',
+    'cancelPayments',
+    'paybills', 'paid', 'pending', 'cancelled',
+    'months',
+    'totals'
+    
+));
+
+    }
+
+
+
+
 }

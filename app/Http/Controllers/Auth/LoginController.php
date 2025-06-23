@@ -17,21 +17,22 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|string',
-            'password' => 'required|string',
-        ]);
+         $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string',
+    ]);
 
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended('/profile');
-        }
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate(); // important for session security
+        return redirect()->intended('/index')->with('success', 'Login successful');
+    }
 
-        return back()->withErrors(['email' => 'Invalid credentials']);
+    return back()->withErrors(['email' => 'Invalid credentials']);
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect('/login');
+        return redirect('/')->with('success', 'Logged out successfully');
     }
 }
