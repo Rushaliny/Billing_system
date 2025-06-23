@@ -25,9 +25,10 @@
     <table>
         <thead>
             <tr>
-                <th>Customer</th>
+                {{-- <th>Customer</th> --}}
                 <th>Service Type</th>
-                <th>Account Number</th>
+                <th>Payee Acc Number</th>
+                <th>ZB Account Number</th>
                 <th>Bill Month</th>
                 <th>Paid On</th>
                 <th>Payment Status</th>
@@ -57,8 +58,9 @@
                                     }
                                 @endphp
                                 <tr>
-                                    <td>{{ $bill->customer_name }}</td>
+                                    {{-- <td>{{ $bill->customer_name }}</td> --}}
                                     <td>{{ $bill->service_type }}</td>
+                                    <td>{{ $bill->payee_account_number }}</td>
                                     <td>{{ $bill->account_number }}</td>
                                     <td>{{ \Carbon\Carbon::parse($bill->bill_month)->format('F Y') }}</td>
                                     <td>{{ $bill->created_at ? $bill->created_at->format('Y-m-d') : '-' }}</td>

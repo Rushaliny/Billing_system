@@ -12,13 +12,14 @@ class PaybillController extends Controller
     public function store(Request $request)
 {
     $validated = $request->validate([
-        'customer_name' => 'required|string|max:255',
-        'customer_address' => 'required|string|max:255',
-        'nic' => 'required|string|max:20',
+        // 'customer_name' => 'required|string|max:255',
+        // 'customer_address' => 'required|string|max:255',
+        // 'nic' => 'required|string|max:20',
+        'payee_account_number' => 'required|string|max:50',
         'mobile' => 'required|string|max:20',
         'service_type' => 'required|string',
         'account_number' => 'required|string|max:50',
-        'district' => 'required|string|max:100',
+        // 'district' => 'required|string|max:100',
         'bill_month' => 'required|date',
         'base_amount' => 'required|numeric',
         'additional_charges' => 'required|numeric',

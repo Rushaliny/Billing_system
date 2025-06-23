@@ -58,22 +58,19 @@
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Full Name</label>
                                     <input type="text" class="form-control" name="name" id="name"
-                                        value="{{ auth()->user()->name }}
-                                     " required>
+                                        value="{{ auth()->user()->name }}" required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" name="email" id="email"
-                                        value="{{ auth()->user()->email }}
-                                     " required>
+                                        value="{{ auth()->user()->email }}" required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="account_number" class="form-label">Account Number</label>
                                     <input type="text" class="form-control" name="account_number" id="account_number"
-                                        value="{{ auth()->user()->account_number ?? '' }}
-                                     ">
+                                        value="{{ auth()->user()->account_number ?? '' }}">
                                 </div>
 
                                 <div class="mb-3">

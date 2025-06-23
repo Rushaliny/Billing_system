@@ -15,19 +15,21 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Customer</th>
-                <th>NIC</th>
+                {{-- <th>Customer</th> --}}
+                {{-- <th>NIC</th>
+                <th>Mobile</th> --}}
+                <th>Service Type</th>
+                <th>Payee Acc.No</th>
                 <th>Mobile</th>
-                <th>Type</th>
-                <th>Account</th>
-                <th>District</th>
+                <th>ZB Account No</th>
+                {{-- <th>District</th> --}}
                 <th>Month</th>
                 <th>Base</th>
                 <th>Charges</th>
                 <th>Total</th>
                 <th>Status</th>
                 <th>Method</th>
-                <th>Reason</th>
+                <th>Cancel Reason</th>
                 <th>Date</th>
             </tr>
         </thead>
@@ -35,12 +37,14 @@
             @foreach($paybills as $i => $bill)
                 <tr>
                     <td>{{ $i+1 }}</td>
-                    <td>{{ $bill->customer_name }}</td>
-                    <td>{{ $bill->nic }}</td>
-                    <td>{{ $bill->mobile }}</td>
+                    {{-- <td>{{ $bill->customer_name }}</td> --}}
+                    {{-- <td>{{ $bill->nic }}</td> --}}
+                    {{-- <td>{{ $bill->mobile }}</td> --}}
                     <td>{{ $bill->service_type }}</td>
+                    <td>{{ $bill->payee_account_number }}</td>
+                    <td>{{ $bill->mobile }}</td>
                     <td>{{ $bill->account_number }}</td>
-                    <td>{{ $bill->district }}</td>
+                    {{-- <td>{{ $bill->district }}</td> --}}
                     <td>{{ \Carbon\Carbon::parse($bill->bill_month)->format('F Y') }}</td>
                     <td>{{ $bill->base_amount }}</td>
                     <td>{{ $bill->additional_charges }}</td>
