@@ -32,15 +32,17 @@
                                 value="{{ request('to_date') }}">
                         </div>
                         <div class="col-md-3">
-                            <label for="month">Month</label>
-                            <select name="month" id="month" class="form-control">
-                                <option value="">-- Select Month --</option>
-                                @for ($m = 1; $m <= 12; $m++)
-                                    <option value="{{ $m }}" {{ request('month') == $m ? 'selected' : '' }}>
-                                        {{ date('F', mktime(0, 0, 0, $m, 1)) }}
+                            <label for="service_type">Service Type</label>
+                            <select name="service_type" id="service_type" class="form-control">
+                                <option value="">-- Select Service Type --</option>
+                                @foreach ($serviceTypes as $type)
+                                    <option value="{{ $type }}"
+                                        {{ request('service_type') == $type ? 'selected' : '' }}>
+                                        {{ ucfirst($type) }}
                                     </option>
-                                @endfor
+                                @endforeach
                             </select>
+
                         </div>
                         <div class="col-md-3">
                             <label for="year">Year</label>
@@ -68,13 +70,13 @@
                 <div class="card-title">Quick Generate</div>
             </div>
             <div class="card-body">
-                <a href="{{ route('reports.filter', ['month' => now()->month, 'year' => now()->year]) }}"
+                {{-- <a href="{{ route('reports.filter', ['month' => now()->month, 'year' => now()->year]) }}"
                     class="btn btn-info me-2">
                     <i class="la la-calendar"></i> This Month's Report
                 </a>
                 <a href="{{ route('reports.filter', ['year' => now()->year]) }}" class="btn btn-warning me-2">
                     <i class="la la-calendar-check"></i> This Year's Report
-                </a>
+                </a> --}}
                 <a href="{{ route('reports.download', ['month' => now()->month, 'year' => now()->year]) }}"
                     class="btn btn-success me-2">
                     <i class="la la-calendar"></i> Download This Month
@@ -145,8 +147,8 @@
                                             <span class="badge bg-secondary">Unknown</span>
                                         @endif
                                     </td>
-                                    <td>{{ $bill->total_amount, 2 }}</td>
-                                    <td>{{ $bill->base_amount, 2 }}</td>
+                                    <td>{{ number_format($bill->total_amount, 2) }}</td>
+                                    <td>{{ number_format($bill->base_amount, 2) }}</td>
                                     <td>
                                         @if ($bill->payment_status === 'Paid')
                                             {{ number_format($income, 2) }}

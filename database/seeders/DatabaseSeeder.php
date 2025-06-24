@@ -27,9 +27,9 @@ class DatabaseSeeder extends Seeder
 
         // Create a default user
         User::create([
-    'name' => 'Admin',
-    'email' => 'admin@example.com',
-    'password' => Hash::make('admin123'), // ✅ Hash here
+    'name' => 'Zb Solution',
+    'email' => 'zbsolution@gmail.com',
+    'password' => Hash::make('Admin@123'), // ✅ Hash here
 ]);
 
     }

@@ -55,10 +55,36 @@ return view('index', compact(
     'paybills', 'paid', 'pending', 'cancelled',
     'months',
     'totals'
-    
+
 ));
 
     }
+
+ public function getMonthlyIncome()
+{
+    $monthlyIncome = DB::table('paybills')
+        ->selectRaw("MONTHNAME(created_at) as month, SUM(total_amount - base_amount) as income")
+        ->where('service_type', 'CEB')
+        ->groupBy(DB::raw("MONTH(created_at)"), DB::raw("MONTHNAME(created_at)"))
+        ->orderBy(DB::raw("MONTH(created_at)"))
+        ->pluck('income', 'month'); 
+
+    return response()->json($monthlyIncome);
+}
+
+
+public function getWaterIncome()
+{
+    $monthlyIncome = DB::table('paybills')
+        ->selectRaw("MONTHNAME(created_at) as month, SUM(total_amount - base_amount) as income")
+        ->where('service_type', 'Water')
+        ->groupBy(DB::raw("MONTH(created_at)"), DB::raw("MONTHNAME(created_at)"))
+        ->orderBy(DB::raw("MONTH(created_at)"))
+        ->pluck('income', 'month');
+
+    return response()->json($monthlyIncome);
+}
+
 
 
 

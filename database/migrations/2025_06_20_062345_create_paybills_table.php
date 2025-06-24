@@ -28,9 +28,11 @@ return new class extends Migration
         $table->string('payment_status');
         $table->string('payment_method');
         $table->text('cancel_reason')->nullable();
+        $table->string('receipt_path')->nullable();
+
         $table->timestamps();
     });
-}
+}   
 
 
     /**

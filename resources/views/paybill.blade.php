@@ -23,7 +23,7 @@
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
-                <form id="payBillForm" action="{{ route('paybill.store') }}" method="POST">
+                <form id="payBillForm" action="{{ route('paybill.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <h6><b>Customer Details</b></h6>
@@ -110,6 +110,14 @@
                             <select class="form-control" name="payment_method" required>
                                 <option value="Online" selected>Online</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-3">
+                        <label class="col-sm-2 col-form-label">Payment Receipt</label>
+                        <div class="col-sm-10">
+                            <input type="file" class="form-control" name="payment_receipt" accept=".pdf,.jpg,.jpeg,.png"
+                                required>
+                            <small class="form-text text-muted">Accepted formats: PDF, JPG, PNG.(Max: 2MB)  </small>
                         </div>
                     </div>
 

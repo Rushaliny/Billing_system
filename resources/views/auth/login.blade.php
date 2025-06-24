@@ -10,9 +10,17 @@
 
     <div class="container mt-5">
         <div class="row justify-content-center">
+
             <div class="col-md-5">
-                <div class="card shadow">
-                    <div class="card-header text-center bg-primary text-white">
+                 <img src="{{ asset('assets/img/profile.jpg') }}" alt="Profile Image" style="width: 50px; height: 50px; border-radius: 50%; display: block; margin: 0 auto; padding-bottom: 2px;">
+
+                <div class="card shadow" >
+                    {{-- <div class="text-center mt-3">
+                            <img src="{{ asset('assets/img/profile.jpg') }}" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%;">
+                    </div> --}}
+
+                    <div class="card-header text-center bg-danger text-white">
+
                         <h4 class="mb-0">Login</h4>
                     </div>
                     <div class="card-body">
@@ -40,7 +48,7 @@
                             </div>
 
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Login</button>
+                                <button type="submit" class="btn btn-danger">Login</button>
                             </div>
                         </form>
                     </div>

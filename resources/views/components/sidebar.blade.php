@@ -8,22 +8,10 @@
 							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
 									Administrator
-									{{-- <span class="user-level">Administrator</span> --}}
-									{{-- <span class="caret"></span> --}}
+                                    <span class="user-level">{{ auth()->user()->name }}</span>
 								</span>
 							</a>
-							<div class="clearfix"></div>
 
-							{{-- <div class="collapse in" id="collapseExample" aria-expanded="true" style="">
-								<ul class="nav">
-									<li>
-										<a href="{{ route('profile.show') }}">
-											<span class="link-collapse">My Profile</span>
-										</a>
-									</li>
-
-								</ul>
-							</div> --}}
 						</div>
 					</div>
 					<ul class="nav">
@@ -64,7 +52,6 @@
 								{{-- <span class="badge badge-count">6</span> --}}
 							</a>
 						</li>
-
 
 					</ul>
 				</div>

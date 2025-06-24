@@ -75,8 +75,8 @@
                                             <span  style="background-color: #6c757d; color: white; padding: 2px 8px; border-radius: 4px;">Unknown</span>
                                         @endif
                                     </td>
-                                    <td>{{ $bill->total_amount, 2 }}</td>
-                                    <td>{{ $bill->base_amount, 2 }}</td>
+                                    <td>{{ number_format($bill->total_amount, 2) }}</td>
+                                    <td>{{ number_format($bill->base_amount, 2) }}</td>
                                     <td>
                                         @if ($bill->payment_status === 'Paid')
                                             {{ number_format($income, 2) }}

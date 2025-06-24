@@ -46,6 +46,7 @@
     <script src="{{ asset('assets/js/ready.min.js') }}"></script>
     {{-- <script src="{{ asset('assets/js/demo.js') }}"></script> --}}
 
+
     @stack('scripts')
 
 </body>
