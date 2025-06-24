@@ -60,7 +60,7 @@ class PaybillController extends Controller
 
     // Save PayBill data
     PayBill::create([
-        'receipt_path' => $receiptPath,
+        'receipt_path' => $validated['receipt_path'] ?? null,
         // Add other fields here, example:
         'account_number' => $request->account_number,
         'payee_account_number' => $request->payee_account_number,
