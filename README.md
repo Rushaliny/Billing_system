@@ -28,13 +28,16 @@ A simple and efficient billing system built with Laravel. This application allow
    cd Billing_system
 
 2. **Install dependencies**
-composer install
-npm install && npm run dev
+
+   ```bash
+    composer install
+    npm install && npm run dev
 
 3. **Set up environment**
 
-cp .env.example .env
-php artisan key:generate
+   ```bash
+    cp .env.example .env
+    php artisan key:generate
 
 4. **Configure your .env file**
     
@@ -42,19 +45,21 @@ php artisan key:generate
 
 5. **Run migrations**
 
-php artisan migrate
+   ```bash  
+    php artisan migrate
 
 6. **Serve the app**
 
-php artisan serve
+   ```bash
+    php artisan serve
 
 
 
 ## 👤 User Roles
 
 **Admin** 
-Email - zbsolution@gmail.com
-Password - Admin@123
+    Email - zbsolution@gmail.com
+    Password - Admin@123
 
 *You can change the password through the Admin profile* 
 
