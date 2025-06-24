@@ -19,47 +19,64 @@ A simple and efficient billing system built with Laravel. This application allow
 - Bootstrap 5
 - JavaScript & jQuery
 
-## 📦 Installation
 
-1. **Clone the repo:**
+## 🧰 How to Install and Run the Project (ZIP Version)
+
+
+
+1. **Extract the ZIP file** into your local directory.
+
+2. **Navigate to the project folder:**
 
    ```bash
-   git clone https://github.com/Rushaliny/Billing_system.git
    cd Billing_system
 
-2. **Install dependencies**
+3. **Install dependencies**
 
    ```bash
     composer install
     npm install && npm run dev
 
-3. **Set up environment**
+4. **Set up environment**
 
    ```bash
     cp .env.example .env
     php artisan key:generate
 
-4. **Configure your .env file**
+5. **Configure your .env file**
     
     Database name - billing_system
 
-5. **Run migrations**
+6. **Run migrations**
 
    ```bash  
     php artisan migrate
 
-6. **Serve the app**
+7. **Serve the app**
 
    ```bash
     php artisan serve
 
+8. **Seed the database (to create default admin login)**
+
+    ```bash
+    php artisan db:seed
+
+9. **Start the development server:**    
+    
+    ```bash
+    php artisan serve
+
+
 ## 👤 User Roles
 
 **Admin** 
-    
-    Email - zbsolution@gmail.com
-    
-    Password - Admin@123
+
 
 *You can change the password through the Admin profile* 
 
+**Clone the repo: (If Need)**
+
+   ```bash
+   git clone https://github.com/Rushaliny/Billing_system.git
+   cd Billing_system
