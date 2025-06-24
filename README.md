@@ -53,12 +53,11 @@ A simple and efficient billing system built with Laravel. This application allow
    ```bash
     php artisan serve
 
-
-
 ## 👤 User Roles
 
 **Admin** 
     Email - zbsolution@gmail.com
+    
     Password - Admin@123
 
 *You can change the password through the Admin profile* 
