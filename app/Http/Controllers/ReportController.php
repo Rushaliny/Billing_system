@@ -47,13 +47,13 @@ class ReportController extends Controller
 
 
         }
-       
+
 
         $paybills = $query->get();
         $serviceTypes = DB::table('paybills')->distinct()->pluck('service_type');
+  $hasData = $paybills->count() > 0;
 
-
-        return view('reports', compact('paybills','serviceTypes'));
+        return view('reports', compact('paybills','serviceTypes','hasData'));
     }
 
     public function download(Request $request)

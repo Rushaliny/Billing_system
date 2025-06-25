@@ -49,7 +49,7 @@
                                 <i class="la la-ban" style="font-size: 36px;"></i>
                             </div>
                             <div>
-                                <p class="card-category mb-1">Cancelled Payments</p>
+                                <p class="card-category mb-1">Cancel Payments</p>
                                 <h4 class="card-title">
                                     Rs. {{ number_format($cancelPayments ?? 0, 2) }}
                                 </h4>
@@ -113,6 +113,13 @@
             </div>
            <div class="row mt-4">
    </div>
+    {{-- Quick Links (optional)
+            <div class="mt-5">
+                <a href="{{ route('reports.filter') }}" class="btn btn-primary me-3">
+                    <i class="la la-file-alt"></i> View Reports
+                </a>
+
+            </div> --}}
 
 
 {{-- <div class="container my-5">
@@ -153,15 +160,7 @@
 
 
 
-            {{-- Quick Links (optional) --}}
-            <div class="mt-5">
-                <a href="{{ route('reports.filter') }}" class="btn btn-primary me-3">
-                    <i class="la la-file-alt"></i> View Reports
-                </a>
-                {{-- <a href="{{ route('paybills.create') }}" class="btn btn-success">
-            <i class="la la-plus"></i> Add New Paybill
-        </a> --}}
-            </div>
+
 
         </div>
 
@@ -221,7 +220,7 @@
   document.addEventListener("DOMContentLoaded", function () {
 
     // CEB Income Chart
-    fetch('/api/paybills-monthly-income')
+    fetch('{{url ('/api/paybills-monthly-income')}}')
       .then(res => res.json())
       .then(data => {
         new Chart(document.getElementById('cebIncomeChart').getContext('2d'), {
@@ -249,7 +248,7 @@
       });
 
     // Water Bill Income Chart
-    fetch('/api/waterbills-monthly-income')
+    fetch('{{url ('/api/waterbills-monthly-income')}}')
       .then(res => res.json())
       .then(data => {
         new Chart(document.getElementById('waterIncomeChart').getContext('2d'), {

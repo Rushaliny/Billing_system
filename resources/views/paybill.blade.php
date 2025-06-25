@@ -151,7 +151,7 @@
                 const serviceType = this.value;
 
                 if (serviceType) {
-                    fetch(`/get-charge/${serviceType}`)
+                    fetch(`{{ url('/get-charge') }}/${serviceType}`)
                         .then(response => response.json())
                         .then(data => {
                             additionalCharge = parseFloat(data.charge) || 0;

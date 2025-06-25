@@ -9,7 +9,17 @@
                 <div class="card-title">Reports</div>
             </div>
             <div class="card-body">
-                <p>Here you can view and generate reports related to billing and payments.</p>
+                @if (isset($hasData) && $hasData)
+                    <div class="alert alert-success text-center">
+                        ✅ Records found for the selected filters you can see below table.
+                    </div>
+                @elseif (isset($hasData) && !$hasData)
+                    <div class="alert alert-warning text-center">
+                        🚫 No records found for the selected filters.
+                    </div>
+                @endif
+
+
             </div>
         </div>
 

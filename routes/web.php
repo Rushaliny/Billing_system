@@ -14,11 +14,18 @@ use App\Models\Charger;
 
 // Login routes
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
 // Route::post('/', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+// Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/')->with('success', 'You have logged out successfully.');
+})->name('logout');
+
+
 // Route::get('/login', [LoginController::class, 'logout'])->name('logout');
 
 
@@ -29,10 +36,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
 
 
-    Route::get('/profile', action: [ProfileController::class, 'show'])->name('profile.show');
-    Route::put('/profile', action: [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::put('/profile',  [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::get('/index', action: [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/index', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::get('/chargers', [ChargerController::class, 'index']);
 
@@ -41,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
         return view('chargers', ['chargers' => Charger::all()]);
     })->name('chargers.index');
 
-    Route::post('/chargers', action: [ChargerController::class, 'store']);
+    Route::post('/chargers', [ChargerController::class, 'store']);
     Route::put('/chargers/{id}', [ChargerController::class, 'update']);
     Route::delete('/chargers/{id}', [ChargerController::class, 'destroy']);
     Route::get('/get-charge/{type}', [App\Http\Controllers\ChargerController::class, 'getCharge']);
