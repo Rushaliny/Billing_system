@@ -8,7 +8,9 @@
 							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
 									Administrator
-                                    <span class="user-level">{{ auth()->user()->name }}</span>
+                                    <span class="user-level">
+                                        {{-- {{ auth()->user()->name }} --}}
+                                    </span>
 								</span>
 							</a>
 

@@ -7,12 +7,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 
+
 class LoginController extends Controller
 {
     //
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view(view: 'auth.login');
     }
 
     public function login(Request $request)
@@ -22,9 +23,9 @@ class LoginController extends Controller
         'password' => 'required|string',
     ]);
 
-    if (Auth::attempt($credentials)) {
+    if (Auth::attempt(credentials: $credentials)) {
         $request->session()->regenerate(); // important for session security
-        return redirect()->intended('/index')->with('success', 'Login successful');
+        return redirect()->intended(default: '/index')->with('success', 'Login successful');
     }
 
     return back()->withErrors(['email' => 'Invalid credentials']);

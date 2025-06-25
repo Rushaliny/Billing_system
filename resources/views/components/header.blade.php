@@ -13,7 +13,7 @@
                 <div class="container-fluid">
 
                     <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-                       
+
                         <li class="nav-item dropdown">
                             <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"
                                 aria-expanded="false"> <img src="assets/img/profile.jpg" alt="user-img"
@@ -24,7 +24,9 @@
                                         <div class="u-img"><img src="assets/img/profile.jpg" alt="user"></div>
                                         <div class="u-text">
                                             <h4>Admin</h4>
-                                            <p class="text-muted"> {{ auth()->user()->name }}</p><a href="{{ route('profile.show') }}"
+                                            <p class="text-muted">
+                                                {{-- {{ auth()->user()->name }}' --}}
+                                            </p><a href="{{ route('profile.show') }}"
                                                 class="btn btn-rounded btn-danger btn-sm">View Profile</a>
                                         </div>
                                     </div>

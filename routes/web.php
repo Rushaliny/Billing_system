@@ -14,15 +14,19 @@ use App\Models\Charger;
 
 // Login routes
 
-Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/', [LoginController::class, 'login']);
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+
+// Route::post('/', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // Route::get('/login', [LoginController::class, 'logout'])->name('logout');
 
 
 
-
 Route::middleware(['auth'])->group(function () {
+
+// Show the report page (default)
+    Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
 
 
     Route::get('/profile', action: [ProfileController::class, 'show'])->name('profile.show');
@@ -37,15 +41,13 @@ Route::middleware(['auth'])->group(function () {
         return view('chargers', ['chargers' => Charger::all()]);
     })->name('chargers.index');
 
-    Route::post('/chargers', [ChargerController::class, 'store']);
+    Route::post('/chargers', action: [ChargerController::class, 'store']);
     Route::put('/chargers/{id}', [ChargerController::class, 'update']);
     Route::delete('/chargers/{id}', [ChargerController::class, 'destroy']);
     Route::get('/get-charge/{type}', [App\Http\Controllers\ChargerController::class, 'getCharge']);
 
 
 
-    // Show the report page (default)
-    Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
 
     // Handle filter form submission
     Route::get('/reports/filter', [App\Http\Controllers\ReportController::class, 'filter'])->name('reports.filter');
@@ -78,7 +80,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/api/waterbills-monthly-income', [DashboardController::class, 'getWaterIncome']);
 
     // Logout route
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    // Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
+
 
 });
 
