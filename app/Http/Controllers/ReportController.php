@@ -27,60 +27,128 @@ class ReportController extends Controller
     {
         $query = Paybill::query();
 
+        // // Filter by created_at date range
+        // if ($request->filled('from_date') && $request->filled('to_date')) {
+        //     $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
+        // }
+
+        // // Filter by year (created_at)
+        // if ($request->filled('year')) {
+        //     $query->whereYear('created_at', $request->year);
+        // }
+
+        // if ($request->filled('service_type')) {
+        //     $query->where('service_type', $request->service_type);
+        // }
+
+        // elseif ($request->filled('month') && $request->filled('year')) {
+        //     $query->whereMonth('bill_month', $request->month)
+        //         ->whereYear('bill_month', $request->year);
+
+
+        // }
+
         // Filter by created_at date range
         if ($request->filled('from_date') && $request->filled('to_date')) {
-            $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
+            $query->whereDate('created_at', '>=', $request->from_date)
+                ->whereDate('created_at', '<=', $request->to_date);
         }
 
-        // Filter by year (created_at)
-        if ($request->filled('year')) {
-            $query->whereYear('created_at', $request->year);
+        // Filter by service_type AND year
+        if ($request->filled('service_type') && $request->filled('year')) {
+            $query->where('service_type', $request->service_type)
+                ->whereYear('created_at', $request->year);
         }
 
-        if ($request->filled('service_type')) {
+        // Filter by service_type only
+        elseif ($request->filled('service_type')) {
             $query->where('service_type', $request->service_type);
         }
 
+        // Filter by bill_month (month and year)
         elseif ($request->filled('month') && $request->filled('year')) {
             $query->whereMonth('bill_month', $request->month)
                 ->whereYear('bill_month', $request->year);
-
-
         }
 
-
-        $paybills = $query->get();
-        $serviceTypes = DB::table('paybills')->distinct()->pluck('service_type');
-  $hasData = $paybills->count() > 0;
-
-        return view('reports', compact('paybills','serviceTypes','hasData'));
-    }
-
-    public function download(Request $request)
-    {
-        $query = Paybill::query();
-
-        // Filter by created_at date range
-        if ($request->filled('from_date') && $request->filled('to_date')) {
-            $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
-        }
-
-        // // Filter by month and year on created_at
-        // if ($request->filled('month') && $request->filled('year')) {
-        //     $query->whereMonth('created_at', $request->month)
-        //     ->whereYear('created_at', $request->year);
-        // }
-
-        // Filter by year only on created_at
+        // Filter by year only
         elseif ($request->filled('year')) {
             $query->whereYear('created_at', $request->year);
         }
 
-        $paybills = $query->get();
 
-        $pdf = Pdf::loadView('reports.invoice', compact('paybills'));
-        return $pdf->download('paybill_report.pdf');
+
+        $paybills = $query->get();
+        $serviceTypes = DB::table('paybills')->distinct()->pluck('service_type');
+        $hasData = $paybills->count() > 0;
+
+        return view('reports', compact('paybills', 'serviceTypes', 'hasData'));
     }
+
+    // public function download(Request $request)
+    // {
+    //     $query = Paybill::query();
+
+    //     // Filter by created_at date range
+    //     if ($request->filled('from_date') && $request->filled('to_date')) {
+    //         $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
+    //     }
+
+    //     // // Filter by month and year on created_at
+    //     // if ($request->filled('month') && $request->filled('year')) {
+    //     //     $query->whereMonth('created_at', $request->month)
+    //     //     ->whereYear('created_at', $request->year);
+    //     // }
+
+    //     // Filter by year only on created_at
+    //     elseif ($request->filled('year')) {
+    //         $query->whereYear('created_at', $request->year);
+    //     }
+
+    //     $paybills = $query->get();
+
+    //     $pdf = Pdf::loadView('reports.invoice', compact('paybills'));
+    //     return $pdf->download('paybill_report.pdf');
+    // }
+
+    public function download(Request $request)
+{
+    $query = Paybill::query();
+
+    // Filter by created_at date range
+    if ($request->filled('from_date') && $request->filled('to_date')) {
+        $query->whereDate('created_at', '>=', $request->from_date)
+              ->whereDate('created_at', '<=', $request->to_date);
+    }
+
+    // Filter by service_type AND year
+    if ($request->filled('service_type') && $request->filled('year')) {
+        $query->where('service_type', $request->service_type)
+              ->whereYear('created_at', $request->year);
+    }
+
+    // Filter by service_type only
+    elseif ($request->filled('service_type')) {
+        $query->where('service_type', $request->service_type);
+    }
+
+    // Filter by bill_month (month and year)
+    elseif ($request->filled('month') && $request->filled('year')) {
+        $query->whereMonth('bill_month', $request->month)
+              ->whereYear('bill_month', $request->year);
+    }
+
+    // Filter by year only
+    elseif ($request->filled('year')) {
+        $query->whereYear('created_at', $request->year);
+    }
+
+    $paybills = $query->get();
+
+    $pdf = Pdf::loadView('reports.invoice', compact('paybills'));
+    return $pdf->download('paybill_report.pdf');
+}
+
 
     public function downloadCsv()
     {

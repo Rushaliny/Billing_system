@@ -86,7 +86,7 @@
             <div class="modal-dialog" role="document">
                 <form id="editChargerForm">
                     @csrf
-                    <input type="hidden" id="edit_id">
+                    <input type="hidden" id="edit_id" name="id">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Edit Charger</h5>
@@ -161,22 +161,51 @@
                 });
 
                 // Edit - submit
+                // $('#editChargerForm').submit(function(e) {
+                //     e.preventDefault();
+                //     let id = $('#edit_id').val();
+                //     $.ajax({
+                //         url: '{{ url('/chargers/') }}' + id,
+                //         type: 'PUT',
+                //         data: {
+                //             applicable_to: $('#edit_applicable_to').val(),
+                //             amount: $('#edit_amount').val(),
+                //             _token: '{{ csrf_token() }}'
+                //         },
+                //         success: function() {
+                //             location.reload();
+                //         }
+                //     });
+                // });
+
                 $('#editChargerForm').submit(function(e) {
                     e.preventDefault();
+                    console.log("Edit form submitted");
+
                     let id = $('#edit_id').val();
+
                     $.ajax({
-                        url: '/chargers/' + id,
-                        type: 'PUT',
+                        url: '{{ url('/chargers') }}/' + id,
+                        // no need to use blade here
+                        type: 'POST',
                         data: {
+                            _token: '{{ csrf_token() }}',
+                            _method: 'PUT', // method spoofing for Laravel
                             applicable_to: $('#edit_applicable_to').val(),
-                            amount: $('#edit_amount').val(),
-                            _token: '{{ csrf_token() }}'
+                            amount: $('#edit_amount').val()
                         },
-                        success: function() {
-                            location.reload();
+                        success: function(response) {
+                            $('#editModal').modal('hide');
+                            location.reload(); // optional: reload to see changes
+                        },
+                        error: function(xhr) {
+                            console.error('Error:', xhr.responseText);
+                            alert('Failed to update charger!');
                         }
                     });
                 });
+
+
 
                 // Delete
                 let deleteId = null;
@@ -187,7 +216,7 @@
                 $('#deleteForm').submit(function(e) {
                     e.preventDefault();
                     $.ajax({
-                        url: '/chargers/' + deleteId,
+                        url: '{{ url('/chargers') }}/' + deleteId,
                         type: 'DELETE',
                         data: {
                             _token: '{{ csrf_token() }}'
