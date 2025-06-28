@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Paybill;
+use Illuminate\Support\Facades\File;
 
 
 
@@ -42,9 +43,28 @@ class PaybillController extends Controller
 
 
         // Save the file
+    // if ($request->hasFile('payment_receipt')) {
+    //     $validated['receipt_path'] = $request->file('payment_receipt')->store('receipts', 'public');
+    // }
+
     if ($request->hasFile('payment_receipt')) {
-        $validated['receipt_path'] = $request->file('payment_receipt')->store('receipts', 'public');
+    $uploadDir = public_path('storage/receipts');
+
+    // Ensure directory exists and is writable
+    if (!\File::exists($uploadDir)) {
+        \File::makeDirectory($uploadDir, 0755, true);
+    } else {
+        @chmod($uploadDir, 0755);
     }
+
+    // Move file manually to the storage path
+    $file = $request->file('payment_receipt');
+    $fileName = time() . '_' . $file->getClientOriginalName();
+    $file->move($uploadDir, $fileName);
+
+    // Save relative path to DB
+    $validated['receipt_path'] = 'receipts/' . $fileName;
+}
 
       // Handle file upload
     // $receiptPath = null;
